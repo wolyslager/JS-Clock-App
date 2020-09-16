@@ -1,0 +1,26 @@
+body{
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+
+.title{
+	font-size: 100px;
+}
+
+.timebox{
+	border: 2px solid black;
+	padding: 50px;
+	border-radius: 35px;
+}
+
+.time{
+	font-size: 100px;
+}
+
+
+
+
