@@ -1,6 +1,7 @@
 const date = document.getElementById('date');
 const day = document.getElementById('day');
 const time = document.getElementById('time');
+let toggle = false;
 const week = ['Monday', 
 			  'Tuesday', 
 			  'Wednesday', 
@@ -9,7 +10,14 @@ const week = ['Monday',
 			  'Saturday',
 			  'Sunday']
 
-const keepTime = () => {
+const clear = () => {
+	clearInterval(interval);
+	toggle = !toggle;
+	interval = setInterval(keepTime, 1000, toggle);
+}
+
+const keepTime = (toggle) => {
+	console.log(toggle)
 		//set date
 		date.innerText = (new Date().getMonth() + 1)
 			+ "/" + new Date().getDay() + "/" + new Date().getFullYear();
@@ -26,19 +34,25 @@ const keepTime = () => {
 
 		if(hours.toString().length < 2){
 			hours = "0"	+ hours;
-		}
+		} 
 
 		if(minutes.toString().length < 2){
 			minutes = "0" + minutes;
 		}
 
-		time.innerText = hours 
-						+ ":" + minutes
-						+ ":" + seconds;
+		 if(toggle){
+			hours = hours > 12 
+			? time.innerText = hours % 12 + ":" + minutes + ":" + seconds + " PM" 
+			: time.innerText = hours  % 12 + ":" + minutes + ":" + seconds + " AM" 
+		 } else {
+		 	time.innerText = hours + ":" + minutes + ":" + seconds;
+		 }
 }
-		
+
+let interval = setInterval(keepTime, 1000, toggle);
+
+document.getElementById('toggle').addEventListener("click", function(){clear()});
 
 
-setInterval(keepTime, 1000);
 
 
