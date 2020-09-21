@@ -1,44 +1,43 @@
-const date = document.getElementById('date');
-const day = document.getElementById('day');
-const time = document.getElementById('time');
-let toggle = false;
-const week = ['Monday', 
-			  'Tuesday', 
-			  'Wednesday', 
-			  'Thursday', 
-			  'Friday',
-			  'Saturday',
-			  'Sunday']
+let toggle = true;
+let interval;
+document.addEventListener('DOMContentLoaded', function(){
+	keepTime();
+	interval = setInterval(keepTime, 1000);
+})
 
-const clear = () => {
-	clearInterval(interval);
+let button = document.getElementById('toggle');
+button.addEventListener('click', (e) => {
 	toggle = !toggle;
-	interval = setInterval(keepTime, 1000, toggle);
-}
+	clearInterval(interval);
+	keepTime();
+	interval = setInterval(keepTime, 1000);
+});
+	
+const keepTime = () => {
+	const date = document.getElementById('date');
+	const day = document.getElementById('day');
+	const time = document.getElementById('time');
+	let newDate = new Date();
+	let seconds = formatTime(newDate.getSeconds());
+	let hours = newDate.getHours();
+	let minutes = formatTime(newDate.getMinutes());
+	let month = newDate.getMonth() + 1;
+	let dateNumber = newDate.getDate();
+	let dayName = newDate.getDay();
+	let year = newDate.getFullYear();
 
-const keepTime = (toggle) => {
-	console.log(toggle)
-		//set date
-		date.innerText = (new Date().getMonth() + 1)
-			+ "/" + new Date().getDay() + "/" + new Date().getFullYear();
-		//set day
-		day.innerText = (week[new Date().getDay()-1]);
-		//set time
-		let seconds = new Date().getSeconds();
-		let hours = new Date().getHours();
-		let minutes = new Date().getMinutes();
+	const dayOfweek = [
+		'Sunday',
+		'Monday', 
+		'Tuesday', 
+		'Wednesday', 
+		'Thursday', 
+		'Friday',
+		'Saturday',
+		]
 
-		if(seconds.toString().length < 2){
-			seconds = "0" + seconds;
-		}
-
-		if(hours.toString().length < 2){
-			hours = "0"	+ hours;
-		} 
-
-		if(minutes.toString().length < 2){
-			minutes = "0" + minutes;
-		}
+		date.innerText = (month+ "/" + dateNumber + "/" + year);
+		day.innerText = dayOfweek[dayName];
 
 		 if(toggle){
 			hours = hours > 12 
@@ -49,10 +48,9 @@ const keepTime = (toggle) => {
 		 }
 }
 
-let interval = setInterval(keepTime, 1000, toggle);
-
-document.getElementById('toggle').addEventListener("click", function(){clear()});
-
+const formatTime = (unit) => {
+	return unit.toString().length < 2 ? "0" + unit : unit;
+}
 
 
 
